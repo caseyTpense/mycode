@@ -2,7 +2,7 @@
 Tracking my code
 # mycode (Learning Python)
 
-I am trying to learn python to start my DevOps career. I have a good Networking foundation but really want to dive into the software side of things now. This is where I will fail over and over again until I am a great coder. 
+I am learning how to version control projects with git.
 
 ## Getting Started
 
