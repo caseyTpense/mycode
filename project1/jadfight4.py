@@ -17,7 +17,7 @@ weapon= input("Choose your weapon: crossbow, blowpipe, or twisted bow\n")
 
 def damage(prayer=None):
     #user did not choose a prayer
-    if prayer.lower() not in jad_type:
+    if prayer not in jad_type:
       print("you took", jad[1], "damage!")
       player[0] = player[0] - jad[1]
       if player[0] > 0:
@@ -70,7 +70,7 @@ def round():
     else:
       #wrong prayer
       pt.cancel()
-      damage(prayer.lower())
+      damage(prayer)
     
     if jad[0] <= 0:
         print("The entire cave shakes as Jad falls dead to the floor. Claim your fire cape from the Tzhaar outside")
