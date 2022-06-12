@@ -225,6 +225,8 @@ while True:
         elif item_to_use == 'health potion':
             player['health'] = player['health'] + 40
             print('You gained 40 health points and now have', player['health'], 'health points!')
+        elif item_to_use == 'crongelon':
+            print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
         #player decides not to use the item
     elif use_choice.lower()== 'no':
         print('you leave', item_to_use, 'in your inventory.')
