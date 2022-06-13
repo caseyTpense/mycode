@@ -35,7 +35,7 @@ aliens = {
 rooms = {
 
             'Living Quarters' : {
-                  'west' : 'Northern Corridor',
+                  'west' : 'Northern Corridor',                  
                   'item'  : 'dads lucky charm',
                   'hello' : "Chad",
                 },
@@ -119,14 +119,18 @@ which_spell = ['holy fire', 'moderate heal']
 def showInstructions():
   #print a main menu and the commands
   print('''
-RPG Game
-========
-Commands:
-  go [direction]
-  get [item]
-  use (press enter to choose item from inventory)
-  drop (press enter to choose item from inventory)
-  read (only works on maps and books)
+Surviving Phlorpia
+ ___________________________________________________________________
+|Commands:                                                          |
+|  go   --- [cardinal direction]                                    |
+|  get  --- [item]                                                  |  
+|  use  --- (press enter to choose item from inventory)             |
+|  drop --- (press enter to choose item from inventory)             | 
+|  read --- [item] (only works on maps and books you may read       |
+|                as many times as you need)                         |
+|                                                                   |
+|  ***TYPE*** "show instructions" to recall this menu out of combat |
+---------------------------------------------------------------------
 ''')
 
 #start the player in the Living Quarters
@@ -163,11 +167,10 @@ ship_map = 'map'
     
 
 #loop forever
-while True:
-
+while True:  
   showStatus()
   if currentRoom == 'Living Quarters' and 'dads lucky charm' not in inventory:
-    print('Chad Feeser says: "Hey whats your name again?"')
+    print('TO START THE GAME ANSWER CHADS QUESTION\nChad Feeser says: "Hey whats your name again?"')
     player_name= input()
     if player_name.lower()  == 'chad':
         print('Chad Feeser: "Oh yeah? well too bad because theres only room for one Chad on this ship!"\nChad pulls out his blaster and blows a hole through your skull\n... Damn I guess get good...')
@@ -197,13 +200,18 @@ while True:
   # split allows an items to have a space on them
   # get golden key is returned ["get", "golden key"]
   move = move.lower().split(" ", 1)
+  
+  #show instructions  
+  if move[0] == 'show':
+      if move[1] == 'instructions':
+        showInstructions()
 
   #if they type 'go' first
   if move[0] == 'go':
     #check that they are allowed wherever they want to go
     if move[1] in rooms[currentRoom]:
-      #set the current room to the new room
-      currentRoom = rooms[currentRoom][move[1]]
+        #set the current room to the new room
+        currentRoom = rooms[currentRoom][move[1]]
     #there is no door (link) to the new room
     else:
         print('You can\'t go that way!')
@@ -261,32 +269,40 @@ while True:
   if move[0] == 'use' :
       #if item in inventory and item is the one they want to use
     item_to_use= input('which item would you like to use? WARNING: The item will be consumed on use\n')
+    if item_to_use == 'dads lucky charm' or 'map':
+        print('There is no use for that item')
+    
+    
     use_choice= input('WARNING: '+ item_to_use + ' will be consumed on use. Are you sure you want to use it? (yes or no)\n')
     #user decides to use the item and they have the item
+    
     if use_choice.lower()== 'yes' and item_to_use.lower() in inventory:
-        print('you used', item_to_use, '\n')
-        inventory.remove(item_to_use)
-        if item_to_use == 'scroll of glokin':
-            player['health'] = player['health'] + 100
-            print('You gained 100 health points and now have', player['health'], 'health points!')
-            time.sleep(1)
-        elif item_to_use == 'guts':
-            print('ew..what? why woudld you.... mmk well now you just smell bad I guess')
-            time.sleep(1)
-        elif item_to_use == 'health potion':
-            player['health'] = player['health'] + 40
-            print('You gained 40 health points and now have', player['health'], 'health points!')
-            time.sleep(1)
-        elif item_to_use == 'crongelon':
-            print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
-            time.sleep(1)
-        elif item_to_use == 'cookie':
-            player['health'] = player['health'] + 20
-            print('You gained 20 health points and now have', player['health'], 'health points!')
-            time.sleep(1)
-        elif item_to_use == 'grok':
-            player['health'] = player['health'] - 5
-            print('You hurt yourself by trying to use the grok.\nChad Feeser: "Whoa', player_name,'be careful! We need each other to get out of here alive!"')
+        if item_to_use == 'dads lucky charm' or 'map':
+            print('There is no use for that item')
+        else:
+            print('you used', item_to_use, '\n')
+            inventory.remove(item_to_use)
+            if item_to_use == 'scroll of glokin':
+                player['health'] = player['health'] + 100
+                print('You gained 100 health points and now have', player['health'], 'health points!')
+                time.sleep(1)
+            elif item_to_use == 'guts':
+                print('ew..what? why woudld you.... mmk well now you just smell bad I guess')
+                time.sleep(1)
+            elif item_to_use == 'health potion':
+                player['health'] = player['health'] + 40
+                print('You gained 40 health points and now have', player['health'], 'health points!')
+                time.sleep(1)
+            elif item_to_use == 'crongelon':
+                print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
+                time.sleep(1)
+            elif item_to_use == 'cookie':
+                player['health'] = player['health'] + 20
+                print('You gained 20 health points and now have', player['health'], 'health points!')
+                time.sleep(1)
+            elif item_to_use == 'grok':
+                player['health'] = player['health'] - 5
+                print('You hurt yourself by trying to use the grok. You now have', player['health'], 'remaining.\nChad Feeser: "Whoa', player_name,'be careful! We need each other to get out of here alive!"')
         #player decides not to use the item
     elif use_choice.lower()== 'no':
         print('you leave', item_to_use, 'in your inventory.')
@@ -547,7 +563,7 @@ while True:
     
     #boss dialogue
     if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom]:
-      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phloria. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
+      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly.That stupid charm that you so willingly brought along with you was a homing device that called my Phlorpian minions to your ship. Had you just left it there we would have never been able to activate the ship tracing to track, map out, and destroy your crew. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phlorpia. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
     
     while player['health'] > 0 and aliens['Fad Cheeser']['health'] > 0: #fight till somethin dies
             combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
@@ -619,10 +635,15 @@ while True:
   if player['health'] == 200 and currentRoom== 'Living Quarters':
     print('youve lived a fat and happy life and will continue to thrive aboard your space ship. Youre just dumb enough and cookie hungry enough to avoid an alien threat. Great job I guess. You technically won.')
     break
+  if currentRoom == 'Living Quarters' and move[0] == 'go' and move[1] == 'east':
+     suicide= input('The only thing to the east is a window.. are you sure you want to go out the window?\n')
+     if suicide.lower() == 'yes':
+        print('You bust open the window and are sucked out into space. You and Chad are instantly killed and the universe may never know why.')
+        break
+     else:
+         print('yeah going out a window in outer space is never a good idea. I am proud of you for making the right choice.')
 
-
-
-
+###would like to make the combat code shorter and utilize the dictionary more. dont want to randomize fights though. 
 
 
 
