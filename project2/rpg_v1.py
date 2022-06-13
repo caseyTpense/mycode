@@ -44,9 +44,9 @@ rooms = {
                         'south' : 'Central Corridor',
                         'east'  : 'Living Quarters',
                         'west'  : 'Kitchen',
-                        'item'  : '', 
+                        'item'  : 'cookie', 
                         'monster' :'Phlorpian Grunt',
-                        'alien' : aliens['Phlorpian Grunt'],
+                        
                  },
 
             'Central Corridor' : {
@@ -66,7 +66,7 @@ rooms = {
                  },
             'Mission Control' : {
                     'west'  : 'Central Corridor',
-                    'item'  : '',
+                    'item'  : 'health potion',
                  },
             'Medical' : {
                     'east'  : 'Central Corridor',
@@ -74,14 +74,14 @@ rooms = {
                  },
             'Kitchen' : {
                 'east'   : 'Northern Corridor',
-                'item'   : 'health potion',
+                'item'   : 'cookie',
                 'monster': 'Phlorpian Initiate'
                },
             'Engineering Bay' : {
                     'south' : 'Cargo Bay',
                     'east'  : 'Southern Corridor',
                     'west'  : 'Kitchen',
-                     
+                    'item'  : 'cookie',
                  },
             'Escape Pod'    : {
                   'west'    : 'Southern Corridor',
@@ -95,7 +95,7 @@ rooms = {
             'Cargo Bay' : {
                'north west' : 'Engineering Bay',
                 'north'     : 'Southern Corridor',
-                'item'      : '',
+                'item'      : 'cookie',
                 'monster'   : 'Phlorpian Berserker',
                  },
          }
@@ -104,7 +104,7 @@ rooms = {
 player_dam = list(range(0, 6))
 ## A dictionary defining alien types, attributes, and spells
 player = {
-            'health' : int(50),
+            'health' : int(125),
             }    
 
 chad_feeser = {
@@ -126,6 +126,7 @@ Commands:
   get [item]
   use (press enter to choose item from inventory)
   drop (press enter to choose item from inventory)
+  read (only works on items marked (readable) )
 ''')
 
 #start the player in the Living Quarters
@@ -158,7 +159,7 @@ def showStatus():
   print("---------------------------")            
 #an inventory, which is initially empty
 inventory = []
-
+ship_map = 'map(readable)'
     
 
 #loop forever
@@ -169,10 +170,22 @@ while True:
     print('Chad Feeser says: "Hey whats your name again?"')
     player_name= input()
     if player_name.lower()  == 'chad':
-        print('Chad: "Oh yeah? well too bad because theres only room for one Chad on this ship!"\nChad pulls out his blaster and blows a hole through your skull\n... Damn I guess get good...')
+        print('Chad Feeser: "Oh yeah? well too bad because theres only room for one Chad on this ship!"\nChad pulls out his blaster and blows a hole through your skull\n... Damn I guess get good...')
     else:
-        print('Chad: "yeah well,', player_name, 'get the hell up something crazy is happening and Im not sure what it is."\n"Lead the way', player_name, 'Oh, and dont forget your little good luck charm there on your table. Youre probably gonna need all the luck you can get. "\n')
-
+        print('Chad Feeser: "yeah well,', player_name, 'get the hell up something crazy is happening and Im not sure what it is."\n"Lead the way', player_name, 'Oh, and dont forget your little good luck charm there on your table. Youre probably gonna need all the luck you can get. "\n')
+  if currentRoom == 'Living Quarters' and 'dads lucky charm' in inventory and 'map' not in inventory:
+      print('Chad Feeser:"Oh!', player_name, 'wait! take this map I found. It will be easier to navigate the ship in case something crazy happens. to use it just type read map!"')
+      inventory += [ship_map]
+      showStatus()
+  if currentRoom == 'Northern Corridor' and 'monster' not in rooms[currentRoom]:
+    print('Chad: "Nice Job', player_name, ', lets make our way to the main deck I heard commotion up there. OUR crew mates need help. I think it should be to the north."')
+  if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom]:
+      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phloria. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
+  if currentRoom == 'Main Deck' and 'monster' not in rooms[currentRoom]:
+      print('Chad Feeser: "Youre getting amazing at taking out these Phlorpians. Lets try to find the kitchen to find something to eat and then maybe the cargo bay. I bet there are extra weapons or goodies we could use."')
+  if currentRoom == 'Kitche' and 'monster' not in rooms[currentRoom]:
+      print('Chad Feeser: "This is getting old man! Lets try to make it to the cargo bay to get stocked up on awesome blasters! we can probably skip over the medical bay I doubt theres anything but bad news there."')
+    
   #get the player's next 'move'
   #.split() breaks it up into an list array
   #eg typing 'go east' would give the list:
@@ -208,6 +221,42 @@ while True:
     else:
       #tell them they can't get it
       print('Can\'t get ' + move[1] + '!')
+
+  #if they type 'read' first
+  if move[0] == 'read' and move[1] == 'map' and 'map' in inventory :
+      print("                    __________________________________")
+      print("                   /               MAIN               \ ")
+      print("                  /                DECK                \ ")
+      print("                 /                                      \ ")
+      print("                 |_________________    _________________|")
+      print("                 |              |        |              |")
+      print("                 |              |Northern|  LIVING      |")
+      print("                 |                          QUARTERS    |")
+      print("                 | KITCHEN       CORRIDOR               |")
+      print("                 |                                      |")
+      print("                 |              |        |              |")
+      print("                 |______________|__    __|______________|")
+      print("                 |              |        |              |")
+      print("                 |              |        |              |")
+      print("                 |              |CENTRAL |   MISSION    |")
+      print("                 |                                      |")
+      print("                 |   MEDICAL     CORRIDOR    CONRTROL   |")
+      print("                 |              |        |              |")
+      print("                 |              |        |              |")
+      print("                 |              |        |              |")
+      print("                 |______________|__    __|______________|")
+      print("                 |              |        |              |")
+      print("                 |   ENGINEER   |SOUTHERN|   ESCAPE     |")
+      print("                 |     BAY                   PODS       |")
+      print("                 |              |CORRIDOR|              |")
+      print("                 |_____    _____|__    __|______________|")
+      print("                /                                        \ ")
+      print("               /                  CARGO                   \ ")
+      print("              /                    BAY                     \ ")
+      print("             /                                              \ ")
+      print("            /________________________________________________\ ")
+
+
   #if they type 'use' first
   if move[0] == 'use' :
       #if item in inventory and item is the one they want to use
@@ -220,13 +269,24 @@ while True:
         if item_to_use == 'scroll of glokin':
             player['health'] = player['health'] + 100
             print('You gained 100 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
         elif item_to_use == 'guts':
             print('ew..what? why woudld you.... mmk well now you just smell bad I guess')
+            time.sleep(1)
         elif item_to_use == 'health potion':
             player['health'] = player['health'] + 40
             print('You gained 40 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
         elif item_to_use == 'crongelon':
             print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
+            time.sleep(1)
+        elif item_to_use == 'cookie':
+            player['health'] = player['health'] + 20
+            print('You gained 20 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
+        elif item_to_use == 'grok':
+            player['health'] = player['health'] - 5
+            print('You hurt yourself by trying to use the grok.\nChad Feeser: "Whoa', player_name,'be careful! We need each other to get out of here alive!"')
         #player decides not to use the item
     elif use_choice.lower()== 'no':
         print('you leave', item_to_use, 'in your inventory.')
@@ -257,7 +317,7 @@ while True:
  
 
  ##spawn condition for monsters       
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
+  if 'monster' in rooms[currentRoom] and 'Phlorpian Grunt' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
         showStatus()
         print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
         time.sleep(3)
@@ -282,8 +342,13 @@ while True:
 
                 if escape_outcome == 'successful': 
                     currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                    print('you escaped successfully to', currentRoom, "! That was a close one.")
-                    break
+                    if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                        currentRoom = random.choice(list(rooms.keys()))
+                        print('you escaped successfully to', currentRoom, "! That was a close one.")
+                        break
+                    else:
+                        print('you escaped successfully to', currentRoom, "! That was a close one.")
+                        break
                 elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                     alien_damage = random.randint(0,5)
                     player['health'] = player['health'] - alien_damage
@@ -299,8 +364,10 @@ while True:
                 break                 
 
 
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
-        while player['health'] > 0 and aliens['Phlorpian Initiate']['health'] > 0: #fight till somethin dies
+  if 'monster' in rooms[currentRoom] and 'Phlorpian Initiate' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
+    print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
+    time.sleep(3)
+    while player['health'] > 0 and aliens['Phlorpian Initiate']['health'] > 0: #fight till somethin dies
                 combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
                 if combat_choice == 'fight': # if fight, combat starts
                     player_damage= random.randint(0,10) #damage for player 
@@ -318,8 +385,13 @@ while True:
 
                     if escape_outcome == 'successful':
                         currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                        print('you escaped successfully to', currentRoom, "! That was a close one.")
-                        break
+                        if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                            currentRoom = random.choice(list(rooms.keys()))
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
+                        else: 
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
                     elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                         alien_damage = random.randint(0,5)
                         player['health'] = player['health'] - alien_damage
@@ -329,13 +401,17 @@ while True:
                     print('It looks like you only have 2 options in this predicament that you have found yourself in. please choose fight or escape.')
 
                 if aliens['Phlorpian Initiate']['health'] <= 0: #ends combat 
-                    print('Good job! That Phlorpian Initiate didnt stand a chance! You see the Phlorpian Initiates guts on the ground.')
+                    print('Good job! That Phlorpian Initiate didnt stand a chance! You see the Phlorpian Initiates guts on the ground.\n You feel slightly stronger')
+                    player['health'] = player['health'] + 25
+                    print('You gained 20 Health Points. Your health is now:', player['health'])
                     del rooms[currentRoom]['monster'] # removes the rooms monster
                     rooms[currentRoom]['item'] = 'guts' #drops item in room
 
 
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:      
-        while player['health'] > 0 and aliens['Phlorpian Zealot']['health'] > 0: #fight till somethin dies
+  if 'monster' in rooms[currentRoom] and 'Phlorpian Zealot' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:      
+    print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
+    time.sleep(3)      
+    while player['health'] > 0 and aliens['Phlorpian Zealot']['health'] > 0: #fight till somethin dies
             combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
             if combat_choice == 'fight': # if fight, combat starts
                 player_damage= random.randint(0,10) #damage for player 
@@ -359,8 +435,13 @@ while True:
 
                 if escape_outcome == 'successful':
                     currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                    print('you escaped successfully to', currentRoom, "! That was a close one.")
-                    break 
+                    if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                        currentRoom = random.choice(list(rooms.keys()))
+                        print('you escaped successfully to', currentRoom, "! That was a close one.")
+                        break
+                    else:
+                        print('you escaped successfully to', currentRoom, "! That was a close one.")
+                        break
                 elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                     alien_damage = random.randint(0,5)
                     player['health'] = player['health'] - alien_damage
@@ -375,8 +456,11 @@ while True:
                 rooms[currentRoom]['item'] = 'scroll of glokin' #drops item in room
 
   
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
-        while player['health'] > 0 and aliens['Phlorpian Berserker']['health'] > 0: #fight till somethin dies
+  if 'monster' in rooms[currentRoom] and 'Phlorpian Berserker' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
+    print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
+    time.sleep(3)
+    print('Chad Feeser: Ohhhhh nooo! thats a Berserker! they hit super hard so kill it quick', player_name)
+    while player['health'] > 0 and aliens['Phlorpian Berserker']['health'] > 0: #fight till somethin dies
                 combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
                 if combat_choice == 'fight': # if fight, combat starts
                     player_damage= random.randint(0,10) #damage for player 
@@ -394,8 +478,13 @@ while True:
 
                     if escape_outcome == 'successful':
                         currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                        print('you escaped successfully to', currentRoom, "! That was a close one.")
-                        break
+                        if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                            currentRoom = random.choice(list(rooms.keys()))
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
+                        else:
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
                     elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                         alien_damage = random.randint(0,10)
                         player['health'] = player['health'] - alien_damage
@@ -405,12 +494,14 @@ while True:
                     print('It looks like you only have 2 options in this predicament that you have found yourself in. please choose fight or escape.')
 
                 if aliens['Phlorpian Berserker']['health'] <= 0: #ends combat 
-                    print('Good job! That Phlorpian Berserker didnt stand a chance! You see a health potion on the ground.')
+                    print('Good job! That Phlorpian Berserker didnt stand a chance! You see a health potion on the ground.\n You feel your experience from this fight has increased your skill with your blaster!\nYour attack increased by 5!')
                     del rooms[currentRoom]['monster'] # removes the rooms monster
                     rooms[currentRoom]['item'] = 'health potion' #drops item in room 
 
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
-        while player['health'] > 0 and aliens['Phlorpian Brute']['health'] > 0: #fight till somethin dies
+  if 'monster' in rooms[currentRoom] and 'Phlorpian Brute' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
+    print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
+    time.sleep(3)      
+    while player['health'] > 0 and aliens['Phlorpian Brute']['health'] > 0: #fight till somethin dies
                 combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
                 if combat_choice == 'fight': # if fight, combat starts
                     player_damage= random.randint(0,15) #damage for player 
@@ -418,7 +509,7 @@ while True:
                     aliens['Phlorpian Brute']['health'] = aliens['Phlorpian Brute']['health'] - player_damage
                     print('you use your blaster to damage the Phlorpian Brute for', player_damage, 'the Phlorpian Brute has', aliens['Phlorpian Brute']['health'], 'health remaining\n---------------------------' )
                     time.sleep(1.5) #gives scroll time
-                    alien_damage = random.randint(5,55) #damage for monster
+                    alien_damage = random.randint(0,20) #damage for monster
                     player['health'] = player['health'] - alien_damage # reduction of player health based on monster attack
                     print('The Phlorpian Brute slashes you with his Grok for', alien_damage, 'you have', player['health'], 'health remaining.\n ---------------------------')
 
@@ -428,8 +519,13 @@ while True:
 
                     if escape_outcome == 'successful':
                         currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                        print('you escaped successfully to', currentRoom, "! That was a close one.")
-                        break
+                        if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                            currentRoom = random.choice(list(rooms.keys()))
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
+                        else:
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
                     elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                         alien_damage = random.randint(0,10)
                         player['health'] = player['health'] - alien_damage
@@ -439,17 +535,24 @@ while True:
                     print('It looks like you only have 2 options in this predicament that you have found yourself in. please choose fight or escape.')
 
                 if aliens['Phlorpian Brute']['health'] <= 0: #ends combat 
-                    print('Good job! That Phlorpian Brute didnt stand a chance! You see the Phlorpian Berserkers Grok on the ground.')
+                    print('Good job! That Phlorpian Brute didnt stand a chance! You see the Phlorpian Berserkers Grok on the ground.\n You feel your experience from this fight has increased your skill with your blaster!')
                     del rooms[currentRoom]['monster'] # removes the rooms monster
-                    rooms[currentRoom]['item'] = 'Grok' #drops item in room
+                    rooms[currentRoom]['item'] = 'grok' #drops item in room
 
 
 
-  if 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
-        while player['health'] > 0 and aliens['Fad Cheeser']['health'] > 0: #fight till somethin dies
+  if 'monster' in rooms[currentRoom] and 'Fad Cheeser' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
+    print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
+    time.sleep(3)
+    
+    #boss dialogue
+    if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom]:
+      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phloria. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
+    
+    while player['health'] > 0 and aliens['Fad Cheeser']['health'] > 0: #fight till somethin dies
             combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
             if combat_choice == 'fight': # if fight, combat starts
-                player_damage= random.randint(0,15) #damage for player 
+                player_damage= random.randint(0,20) #damage for player 
                 #hp reduction for monster based on player attack
                 aliens['Fad Cheeser']['health'] = aliens['Fad Cheeser']['health'] - player_damage
                 print('you use your blaster to damage the Fad Cheeser for', player_damage, 'the Fad Cheeser has', aliens['Fad Cheeser']['health'], 'health remaining\n---------------------------' )
@@ -478,8 +581,13 @@ while True:
 
                 if escape_outcome == 'successful':
                     currentRoom = random.choice(list(rooms.keys())) #if you escape puts you in a random room on the spaceship
-                    print('you escaped successfully to', currentRoom, "! That was a close one.")
-                    break
+                    if currentRoom == 'Escape Pod':                   #doesnt let you escape to the escape pod
+                        currentRoom = random.choice(list(rooms.keys()))
+                        print('you escaped successfully to', currentRoom, "! That was a close one.")
+                        break
+                    else:
+                            print('you escaped successfully to', currentRoom, "! That was a close one.")
+                            break
                 elif escape_outcome == 'unsuccessful': #take damage if you roll unsuccessful escape
                     greater_heal = random.randint(0,55)
                     aliens['Fad Cheeser']['health'] = aliens['Fad Cheeser']['health'] + greater_heal
@@ -491,7 +599,7 @@ while True:
             if aliens['Fad Cheeser']['health'] <= 0: #ends combat 
                 print('Youve done it... Idk how but damn you actually did it... you took out the Phlorpian High Priest Fad Cheeser even though he manipulated you into allowing the Phlorpians on board to kill your whole crew... you alone have survived. now take his ring as your prize as it is the new key to the only escape pod.')
                 del rooms[currentRoom]['monster'] # removes the rooms monster
-                rooms[currentRoom]['item'] = 'Fad Cheesers ring' #drops item in room
+                rooms[currentRoom]['item'] = 'fad cheesers ring' #drops item in room
 
 
 
@@ -505,7 +613,46 @@ while True:
     print("Covered in the blood of a seemingly kind and helpful man, you feel a sense of relief. You're not sure why but your heart tells you humanity and your ship are better off with him gone.\n----------------------\n Play Again you sly dog you ;)")
     break 
 
-  if currentRoom  == 'Escape Pod' and 'Fad Cheesers ring' in inventory:
+  if currentRoom  == 'Escape Pod' and 'fad cheesers ring' in inventory:
     print('you confidently touch Fad Cheesers ring to the consol of the escape pod. As the pod launches off towards the nearest planet, you cant help to think back to your time aboard your ship with your crew. They were all such wonderful people who deserved life with their families back on Earth. None of them fell prey to the Phlorpians tricks and yet they are all dead and you are here. As the ship exits your line of sight,you cant help but think about what life would be if you had just typed "kill Chad" into your terminal.')
     break
+  if player['health'] == 200 and currentRoom== 'Living Quarters':
+    print('youve lived a fat and happy life and will continue to thrive aboard your space ship. Youre just dumb enough and cookie hungry enough to avoid an alien threat. Great job I guess. You technically won.')
+    break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
