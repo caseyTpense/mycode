@@ -103,8 +103,9 @@ rooms = {
 
 player_dam = list(range(0, 6))
 ## A dictionary defining alien types, attributes, and spells
+###SET PLAYER HEALTH TO 100 IF NOT TESTING
 player = {
-            'health' : int(125),
+            'health' : int(500),
             }    
 
 chad_feeser = {
@@ -119,7 +120,7 @@ which_spell = ['holy fire', 'moderate heal']
 def showInstructions():
   #print a main menu and the commands
   print('''
-Surviving Phlorpia
+Phlorpia
  ___________________________________________________________________
 |Commands:                                                          |
 |  go   --- [cardinal direction]                                    |
@@ -163,12 +164,15 @@ def showStatus():
   print("---------------------------")            
 #an inventory, which is initially empty
 inventory = []
+#map call
 ship_map = 'map'
     
 
 #loop forever
 while True:  
   showStatus()
+
+  ##Dialogue ques
   if currentRoom == 'Living Quarters' and 'dads lucky charm' not in inventory:
     print('TO START THE GAME ANSWER CHADS QUESTION\nChad Feeser says: "Hey whats your name again?"')
     player_name= input()
@@ -182,11 +186,11 @@ while True:
       showStatus()
   if currentRoom == 'Northern Corridor' and 'monster' not in rooms[currentRoom]:
     print('Chad: "Nice Job', player_name, ', lets make our way to the main deck I heard commotion up there. OUR crew mates need help. I think it should be to the north."')
-  if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom]:
-      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phloria. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
+  #if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom] and 'dads lucky charm' in inventory:
+      #print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phloria. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
   if currentRoom == 'Main Deck' and 'monster' not in rooms[currentRoom]:
       print('Chad Feeser: "Youre getting amazing at taking out these Phlorpians. Lets try to find the kitchen to find something to eat and then maybe the cargo bay. I bet there are extra weapons or goodies we could use."')
-  if currentRoom == 'Kitche' and 'monster' not in rooms[currentRoom]:
+  if currentRoom == 'Kitchen' and 'monster' not in rooms[currentRoom]:
       print('Chad Feeser: "This is getting old man! Lets try to make it to the cargo bay to get stocked up on awesome blasters! we can probably skip over the medical bay I doubt theres anything but bad news there."')
     
   #get the player's next 'move'
@@ -230,7 +234,7 @@ while True:
       #tell them they can't get it
       print('Can\'t get ' + move[1] + '!')
 
-  #if they type 'read' first
+  #display map if read map is typed and in inventory
   if move[0] == 'read' and move[1] == 'map' and 'map' in inventory :
       print("                    __________________________________")
       print("                   /               MAIN               \ ")
@@ -277,32 +281,32 @@ while True:
     #user decides to use the item and they have the item
     
     if use_choice.lower()== 'yes' and item_to_use.lower() in inventory:
-        if item_to_use == 'dads lucky charm' or 'map':
+        if item_to_use == 'dads lucky charm' or 'map': #stops the use of map and dads lucky charm since they would be deleted and have no use
             print('There is no use for that item')
-        else:
-            print('you used', item_to_use, '\n')
-            inventory.remove(item_to_use)
-            if item_to_use == 'scroll of glokin':
-                player['health'] = player['health'] + 100
-                print('You gained 100 health points and now have', player['health'], 'health points!')
-                time.sleep(1)
-            elif item_to_use == 'guts':
-                print('ew..what? why woudld you.... mmk well now you just smell bad I guess')
-                time.sleep(1)
-            elif item_to_use == 'health potion':
-                player['health'] = player['health'] + 40
-                print('You gained 40 health points and now have', player['health'], 'health points!')
-                time.sleep(1)
-            elif item_to_use == 'crongelon':
-                print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
-                time.sleep(1)
-            elif item_to_use == 'cookie':
-                player['health'] = player['health'] + 20
-                print('You gained 20 health points and now have', player['health'], 'health points!')
-                time.sleep(1)
-            elif item_to_use == 'grok':
-                player['health'] = player['health'] - 5
-                print('You hurt yourself by trying to use the grok. You now have', player['health'], 'remaining.\nChad Feeser: "Whoa', player_name,'be careful! We need each other to get out of here alive!"')
+        ##usable items defined and calls
+        print('you used', item_to_use, '\n')
+        inventory.remove(item_to_use)
+        if item_to_use == 'scroll of glokin':
+            player['health'] = player['health'] + 100
+            print('You gained 100 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
+        elif item_to_use == 'guts':
+            print('ew..what? why woudld you.... mmk well now you just smell bad I guess')
+            time.sleep(1)
+        elif item_to_use == 'health potion':
+            player['health'] = player['health'] + 40
+            print('You gained 40 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
+        elif item_to_use == 'crongelon':
+            print('whoa! that didnt upgrade that blaster at all... but it looks like you got a little in your eye. You feel slightly more accurate with your blaster than you were just a moment ago.. even with no extra practice at all.')
+            time.sleep(1)
+        elif item_to_use == 'cookie':
+            player['health'] = player['health'] + 20
+            print('You gained 20 health points and now have', player['health'], 'health points!')
+            time.sleep(1)
+        elif item_to_use == 'grok':
+            player['health'] = player['health'] - 5
+            print('You hurt yourself by trying to use the grok. You now have', player['health'], 'remaining.\nChad Feeser: "Whoa', player_name,'be careful! We need each other to get out of here alive!"')
         #player decides not to use the item
     elif use_choice.lower()== 'no':
         print('you leave', item_to_use, 'in your inventory.')
@@ -337,9 +341,10 @@ while True:
         showStatus()
         print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
         time.sleep(3)
-    
+        print('huh')   
 
-        
+        ##specific fight sequences
+        ##Grunt fight sequence
         while player['health'] > 0 and aliens['Phlorpian Grunt']['health'] > 0: #fight till somethin dies
             combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
             if combat_choice == 'fight': # if fight, combat starts
@@ -379,7 +384,7 @@ while True:
                 rooms[currentRoom]['item'] = 'crongelon' #drops item in room
                 break                 
 
-
+##initiate fight sequence
   if 'monster' in rooms[currentRoom] and 'Phlorpian Initiate' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
     print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
     time.sleep(3)
@@ -423,7 +428,7 @@ while True:
                     del rooms[currentRoom]['monster'] # removes the rooms monster
                     rooms[currentRoom]['item'] = 'guts' #drops item in room
 
-
+##Zealot fight sequence
   if 'monster' in rooms[currentRoom] and 'Phlorpian Zealot' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:      
     print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
     time.sleep(3)      
@@ -471,7 +476,7 @@ while True:
                 del rooms[currentRoom]['monster'] # removes the rooms monster
                 rooms[currentRoom]['item'] = 'scroll of glokin' #drops item in room
 
-  
+  ##berserker fight sequence
   if 'monster' in rooms[currentRoom] and 'Phlorpian Berserker' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
     print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
     time.sleep(3)
@@ -556,15 +561,13 @@ while True:
                     rooms[currentRoom]['item'] = 'grok' #drops item in room
 
 
-
-  if 'monster' in rooms[currentRoom] and 'Fad Cheeser' in rooms[currentRoom]['monster'] and 'dads lucky charm' in inventory:
+##Boss fight sequence
+  if 'dads lucky charm' in inventory and 'monster' in rooms[currentRoom] and 'Fad Cheeser' in rooms[currentRoom]['monster']:
     print('There is a', rooms[currentRoom]['monster'], 'prepared to fight!')
     time.sleep(3)
-    
+    print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly.That stupid charm that you so willingly brought along with you was a homing device that called my Phlorpian minions to your ship. Had you just left it there we would have never been able to activate the ship tracing to track, map out, and destroy your crew. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phlorpia. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
     #boss dialogue
-    if currentRoom == 'Escape Pod' and 'monster' in rooms[currentRoom]:
-      print('Chad Feeser rips his skin off revealing himself as the Phlorpian High Priest Fad Cheeser.\nFad Cheeser:"HAHAHA it is hilarious that you think I would let you escape. Just because I used you like a puppy does not mean youre making it off this ship while your crew lay dead and their blood fills my belly.That stupid charm that you so willingly brought along with you was a homing device that called my Phlorpian minions to your ship. Had you just left it there we would have never been able to activate the ship tracing to track, map out, and destroy your crew. Your sacrifice is appreciated as I will grow stronger off the blood of you and your crew and take over this galaxy for Phlorpia. Prepare to die', player_name, 'you genuinley look quite dumb right now."')
-    
+
     while player['health'] > 0 and aliens['Fad Cheeser']['health'] > 0: #fight till somethin dies
             combat_choice = input('Do you want to fight or escape?') # input choice to fight or attempt escape
             if combat_choice == 'fight': # if fight, combat starts
