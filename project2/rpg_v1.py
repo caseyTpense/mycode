@@ -157,7 +157,7 @@ def showStatus():
   print('Inventory : ' + str(inventory))
   #print an item if there is one
   if 'item' in rooms[currentRoom]:
-    print('You see a', rooms[currentRoom]['item'])
+      print('You see a:', rooms[currentRoom]['item'])
   else:
       print('There seems to be nothing of interest left in this room')
   print("---------------------------")            
