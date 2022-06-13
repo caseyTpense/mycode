@@ -126,7 +126,7 @@ Commands:
   get [item]
   use (press enter to choose item from inventory)
   drop (press enter to choose item from inventory)
-  read (only works on items marked (readable) )
+  read (only works on maps and books)
 ''')
 
 #start the player in the Living Quarters
@@ -159,7 +159,7 @@ def showStatus():
   print("---------------------------")            
 #an inventory, which is initially empty
 inventory = []
-ship_map = 'map(readable)'
+ship_map = 'map'
     
 
 #loop forever
