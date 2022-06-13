@@ -355,6 +355,11 @@ while True:
                 aliens['Phlorpian Grunt']['health'] = aliens['Phlorpian Grunt']['health'] - player_damage 
                 print('you use your blaster to damage the Phlorpian Grunt for', player_damage, 'the Phlorpian Grunt has', aliens['Phlorpian Grunt']['health'], 'health remaining\n---------------------------' )                   
                 time.sleep(1.5) #gives scroll time
+                if aliens['Phlorpian Grunt']['health'] <= 0:
+                    print('Good job! That Phlorpian Grunt didnt stand a chance! You see the Phlorpian Grunts crongelon on the ground. Maybe you could use it to upgrade your blaster.')
+                    del rooms[currentRoom]['monster'] # removes the rooms monste
+                    rooms[currentRoom]['item'] = 'crongelon' #drops item in room
+                    break
                 alien_damage = random.randint(0,5) #damage for monster
                 player['health'] = player['health'] - alien_damage # reduction of player health based on monster attack
                 print('The Phlorpian Grunt slaps you with his crongelon for', alien_damage, 'you have', player['health'], 'health remaining.\n ---------------------------')
@@ -398,6 +403,13 @@ while True:
                     aliens['Phlorpian Initiate']['health'] = aliens['Phlorpian Initiate']['health'] - player_damage
                     print('you use your blaster to damage the Phlorpian Initiate for', player_damage, 'the Phlorpian Initiate has', aliens['Phlorpian Initiate']['health'], 'health remaining\n---------------------------' )
                     time.sleep(1.5) #gives scroll time
+                    if aliens['Phlorpian Initiate']['health'] <= 0: #ends combat 
+                        print('Good job! That Phlorpian Initiate didnt stand a chance! You see the Phlorpian Initiates guts on the ground.\n You feel slightly stronger')
+                        player['health'] = player['health'] + 25
+                        print('You gained 20 Health Points. Your health is now:', player['health'])
+                        del rooms[currentRoom]['monster'] # removes the rooms monster
+                        break
+                    rooms[currentRoom]['item'] = 'guts' #drops item in room
                     alien_damage = random.randint(0,10) #damage for monster
                     player['health'] = player['health'] - alien_damage # reduction of player health based on monster attack
                     print('The Phlorpian Initiate blasts you with his phase zinger for', alien_damage, 'you have', player['health'], 'health remaining.\n ---------------------------')
@@ -442,6 +454,11 @@ while True:
                 aliens['Phlorpian Zealot']['health'] = aliens['Phlorpian Zealot']['health'] - player_damage
                 print('you use your blaster to damage the Phlorpian Zealot for', player_damage, 'the Phlorpian Zealot has', aliens['Phlorpian Zealot']['health'], 'health remaining\n---------------------------' )
                 time.sleep(1.5) #gives scroll time
+                if aliens['Phlorpian Zealot']['health'] <= 0: #ends combat 
+                    print('Good job! That Phlorpian Zealot didnt stand a chance! You see where the Phlorpian Zealots body was a scroll of glokin restoration is on the ground.')
+                    del rooms[currentRoom]['monster'] # removes the rooms monster
+                    rooms[currentRoom]['item'] = 'scroll of glokin' #drops item in room
+                    break
                 zealot_attack = random.choice(spell_or_attack)
                 if zealot_attack == 'attack':
                     alien_damage = random.randint(0,10) #damage for monster
@@ -491,6 +508,10 @@ while True:
                     aliens['Phlorpian Berserker']['health'] = aliens['Phlorpian Berserker']['health'] - player_damage
                     print('you use your blaster to damage the Phlorpian Berserker for', player_damage, 'the Phlorpian Berserker has', aliens['Phlorpian Berserker']['health'], 'health remaining\n---------------------------' )
                     time.sleep(1.5) #gives scroll time
+                    if aliens['Phlorpian Berserker']['health'] <= 0: #ends combat 
+                        print('Good job! That Phlorpian Berserker didnt stand a chance! You see a health potion on the ground.\n You feel your experience from this fight has increased your skill with your blaster!\nYour attack increased by 5!')
+                        del rooms[currentRoom]['monster'] # removes the rooms monster
+                        rooms[currentRoom]['item'] = 'health potion' #drops item in room
                     alien_damage = random.randint(5,55) #damage for monster
                     player['health'] = player['health'] - alien_damage # reduction of player health based on monster attack
                     print('The Phlorpian Berserker goes into a rage slamming you to the ground for', alien_damage, 'you have', player['health'], 'health remaining.\n ---------------------------')
@@ -532,6 +553,11 @@ while True:
                     aliens['Phlorpian Brute']['health'] = aliens['Phlorpian Brute']['health'] - player_damage
                     print('you use your blaster to damage the Phlorpian Brute for', player_damage, 'the Phlorpian Brute has', aliens['Phlorpian Brute']['health'], 'health remaining\n---------------------------' )
                     time.sleep(1.5) #gives scroll time
+                    if aliens['Phlorpian Brute']['health'] <= 0: #ends combat
+                        print('Good job! That Phlorpian Brute didnt stand a chance! You see the Phlorpian Berserkers Grok on the ground.\n You feel your experience from this fight has increased your skill with your blaster!')
+                        del rooms[currentRoom]['monster'] # removes the rooms monster
+                        rooms[currentRoom]['item'] = 'grok' #drops item in room
+                        break
                     alien_damage = random.randint(0,20) #damage for monster
                     player['health'] = player['health'] - alien_damage # reduction of player health based on monster attack
                     print('The Phlorpian Brute slashes you with his Grok for', alien_damage, 'you have', player['health'], 'health remaining.\n ---------------------------')
