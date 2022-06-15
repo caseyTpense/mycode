@@ -59,20 +59,20 @@ def main():
    
     # looks like the only issue is with the slicing! let's see here...
     if isinstance(apod, list):
-        titleValues = [d['title']for d in apod if 'title' in d] # oh wow, this is a list comprehension.
-        dateValues = [d['date'] for d in apod if 'date' in d]
-        explanationValues = [d['explanation'] for d in apod if 'explanation' in d]
-        urlValues = [d['url'] for d in apod if 'url' in d] 
+   #     titleValues = [d['title']for d in apod if 'title' in d] # oh wow, this is a list comprehension.
+   #     dateValues = [d['date'] for d in apod if 'date' in d]
+   #     explanationValues = [d['explanation'] for d in apod if 'explanation' in d]
+   #     urlValues = [d['url'] for d in apod if 'url' in d] 
         
-    
-        print(titleValues)
-        print('-------------------------------------------')
-        print(dateValues)
-        print('-------------------------------------------')
-        print(explanationValues)
-        print('-------------------------------------------')
-        print(urlValues)
-        print('-------------------------------------------')
+        for x in apod:
+            print(x["title"]) # this is chad
+            print('-------------------------------------------')
+            print(x['date'])
+            print('-------------------------------------------')
+            print(x['explanation'])
+            print('-------------------------------------------')
+            print(x['url'])
+            print('-------------------------------------------')
     else:
         print(apod["title"] + "\n" + apod["date"] + "\n" + apod["explanation"] + "/n" + apod["url"])
 

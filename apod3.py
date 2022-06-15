@@ -1,10 +1,7 @@
 #!/usr/bin/python3
-# sorry someone walked up with a question
-
 import requests
 NASAAPI = "https://api.nasa.gov/planetary/apod?"
-#startdate= ''
-#enddate= ''
+
 # this function grabs our credentials
 def returncreds():
     ## first I want to grab my credentials
@@ -19,6 +16,7 @@ def returncreds():
 def main():
     startdate= ''
     enddate= ''
+    dateRange= ''
     difdate= input('would you like to use a date other than today? (y/n)\n').lower()
     if difdate.lower() == 'y':
         askrange= input('Would you like to use a range of dates? (y/n)\n').lower()
@@ -27,20 +25,12 @@ def main():
             rangedatetwo=input('enter the end date (yyyy-mm-dd)\n').lower()
             startdate= '&start_date=' + rangedateone  #delete and change the above 2?
             enddate= '&end_date=' + rangedatetwo      ##########################
+            dateRange= startdate + enddate
     ##askmultiple= input('Would you like multiple dates outside of a range? (y/n)\n').lower
-        elif askrange == 'no':
-            date= '&date=' + input('please enter the one date you would like to see')
+        elif askrange == 'n':
+            dateRange= '&date=' + input('please enter the one date you would like to see(yyyy-mm-dd)\n').lower()
         else: 
-            print('please use y or n to answer')    
-        #startdate= '&start_date=' + rangedateone
-        #enddate= '&end_date=' + randedatetwo
-        #if askrange== 'n':
-        #    enddate= startdate= 'date='    
-    if difdate.lower() == 'n':
-        startdate= ''
-    else: 
-        print('please use y or n to answer')
-    dateRange= startdate + enddate
+            print('please use y or n to answer')
     ## first grab credentials
     nasacreds = returncreds()
     print(NASAAPI + nasacreds + dateRange)
@@ -52,27 +42,18 @@ def main():
         apodresp = requests.get(NASAAPI + nasacreds)
         apod = apodresp.json()
     ## strip off json
-
-
-    #print(apod)
     #print()
-   
-    # looks like the only issue is with the slicing! let's see here...
     if isinstance(apod, list):
-        titleValues = [d['title']for d in apod if 'title' in d] # oh wow, this is a list comprehension.
-        dateValues = [d['date'] for d in apod if 'date' in d]
-        explanationValues = [d['explanation'] for d in apod if 'explanation' in d]
-        urlValues = [d['url'] for d in apod if 'url' in d] 
-        
-    
-        print(titleValues)
-        print('-------------------------------------------')
-        print(dateValues)
-        print('-------------------------------------------')
-        print(explanationValues)
-        print('-------------------------------------------')
-        print(urlValues)
-        print('-------------------------------------------')
+        for x in apod: 
+            print('---------------------------------------------------------------------------------------------------------------------------------')
+            print(x['title'])
+            print('----------------------------------------')
+            print(x['date'])
+            print('----------------------------------------')
+            print(x['explanation'])
+            print('----------------------------------------')
+            print(x['url'])
+            print('---------------------------------------------------------------------------------------------------------------------------------')
     else:
         print(apod["title"] + "\n" + apod["date"] + "\n" + apod["explanation"] + "/n" + apod["url"])
 
