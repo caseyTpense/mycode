@@ -15,7 +15,24 @@ def returncreds():
     ## remove any newline characters from the api_key
     nasacreds = "api_key=" + nasacreds.strip("\n")
     return nasacreds
+
+def mrp():
+    indate= input('Enter a date to see photos from the Curiosity Mars Rover on that date (yyyy-mm-dd)\n').lower() #requests start date from user
+    date= '?earth_date=' + indate #sets input to startdate preceded by NASAAPI start date parameter
+    NASAAPI= 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos'    #defines the API used
+    nasacreds = returncreds() #grabs creds
+    mrpresp = requests.get(NASAAPI + date + '&' + nasacreds) #makes call to the nasa API with our creds and date range
+    mrplist = mrpresp.json() #strip off json
     
+    for x in mrplist['photos']: #for loop to find useful info within the api 
+        line()
+        print ('sol date:', x['sol']) 
+        print ('id number:', x['id'])
+        print ('camera:', x['camera']['full_name'])
+        sline()
+        print ('image:', x['img_src'])
+        line()
+
 # utilizes the apod feature of nasas API
 def apod():
     startdate= '' #initial set of start date variable
@@ -92,28 +109,28 @@ def neo():
         nasacreds = returncreds() #grabs creds
         neoresp = requests.get(NASAAPI + dateRange + '&' + nasacreds) #makes call to the nasa API with our creds and date range
         neolist = neoresp.json() #strip off json
-        hazardouscount= 0
-        nonhazardouscount= 0
-        print('you entered start date:', rangedateone)
-        if rangedatetwo != '':
-            print('you entered enddate:', rangedatetwo)
-        for x in neolist['near_earth_objects']:
-            for y in neolist['near_earth_objects'][x]:
-                if y['is_potentially_hazardous_asteroid'] == True:
-                    hazardouscount += 1
+        hazardouscount= 0  #starts hazard count
+        nonhazardouscount= 0 #starts nonhazard count
+        print('you entered start date:', rangedateone) #confirm date
+        if rangedatetwo != '':  #if rangedatetwo is not blank
+            print('you entered enddate:', rangedatetwo) # confirm the date entered
+        for x in neolist['near_earth_objects']: #for loop picks through dictionary
+            for y in neolist['near_earth_objects'][x]:#imbedded for loop to find if hazardous
+                if y['is_potentially_hazardous_asteroid'] == True:  #confirms hazardous pontential is true
+                    hazardouscount += 1  # counts the amount of hazardous
                     line()
-                    print('object ID --- ', y['id'])
-                    print('object name --- ', y['name'])
+                    print('object ID --- ', y['id']) 
+                    print('object name --- ', y['name']) #prints info about the hazardous neos
                     sline()
-                    if isinstance([y], list):
-                        for z in y["close_approach_data"]:
+                    if isinstance([y], list): #isinstance tells python its ok that this is a  list in a dictionary and not to panic 
+                        for z in y["close_approach_data"]: 
                             print('close approach date and time:', z["close_approach_date_full"])
-                            print('miss distance in kilometers:', z["miss_distance"]["kilometers"])
+                            print('miss distance in kilometers:', z["miss_distance"]["kilometers"])  #prints info about the close approach data
                             line()
                 else:
-                    nonhazardouscount += 1
-        print(f"The number of potentially hazardous asteroids is {hazardouscount}.")
-        print(f"The number of objects that are near earth objects but are not potentially hazerdous asteroids is {nonhazardouscount}")
+                    nonhazardouscount += 1  # counts nonhazardous 
+        print(f"The number of potentially hazardous asteroids is {hazardouscount}.")  #gives hazardous count
+        print(f"The number of objects that are near earth objects but are not potentially hazerdous asteroids is {nonhazardouscount}") #gives nonhazardous count
     if whichfunction == 'lookup':
         line()
         line()
@@ -133,18 +150,21 @@ def neo():
         print('Link to use the raw json---', neolist['links'])
 def main():
     while True:
-        #initial definitions for ease of use
+        #initial definitions for exit to work at any point
         askrange= ''
         difdate= ''
         rangedateone= ''
         rangedatetwo= ''
         whichfunction = ''
+        indate = ''
         apodfig= pyfiglet.figlet_format('ASTRONOMY PICTURE OF THE DAY') #uses pyfig to show apod option to user
         neofig= pyfiglet.figlet_format('NEAR EARTH OBJECTS') #uses pyfig to show apod option to user
+        mrpfig= pyfiglet.figlet_format('MARS ROVER PHOTOS') #uses pyfig to show mrp option to user
         print(apodfig, '\n type apod') #gives instruction on what to type for apod
         line() #formatting
         print(neofig, '\n type neo') #gives instruction on what to type for apod
-        sline() #formatting
+        line() #formatting
+        print(mrpfig, '\n type mrp') #gives instruction on what to type for mrp 
         apichoice= input('which API would you like to work with?\n').lower() #asks for an input to choose which API the script uses
         line() #formatting
         line() #formatting
@@ -161,7 +181,16 @@ def main():
             line()
             line()
             input('press enter to continue')
-        if difdate == 'exit' or askrange == 'exit' or rangedateone == 'exit' or rangedatetwo == 'exit' or whichfunction == 'exit' or apichoice == 'exit':
+        elif apichoice == 'mrp': #run mrp if chosen
+            line()
+            mrp()
+            line()
+            line()
+            input('press enter to continue')
+        
+
+        #exit the program at any point
+        if difdate == 'exit' or askrange == 'exit' or rangedateone == 'exit' or rangedatetwo == 'exit' or whichfunction == 'exit' or apichoice == 'exit' or indate== 'exit': 
             break
 
 if __name__ == "__main__":
