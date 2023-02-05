@@ -1,14 +1,10 @@
 # mycode
-Tracking my code
+storing all of my code even if unfinished.
 # mycode (Learning Python)
 
 I am learning how to version control projects with git.
 
-## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine
-for development and testing purposes. See deployment for notes on how to deploy the project
-on a live system.
 
 ### Prerequisites
 
